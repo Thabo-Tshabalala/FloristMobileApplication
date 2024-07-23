@@ -1,12 +1,15 @@
+import 'package:florist_app/screens/create_account.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(  body: Container(
-        padding: EdgeInsets.all(16.0),
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.green.shade300, Colors.green.shade700],
@@ -19,7 +22,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Florist App',
                   style: TextStyle(
                     fontSize: 32.0,
@@ -27,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 40.0),
+                const SizedBox(height: 40.0),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -41,25 +44,25 @@ class LoginScreen extends StatelessWidget {
                           controller: _usernameController,
                           decoration: InputDecoration(
                             labelText: 'Username',
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         TextField(
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         ElevatedButton(
                           onPressed: () {
                             // Handle login logic
@@ -67,9 +70,8 @@ class LoginScreen extends StatelessWidget {
                             String password = _passwordController.text;
                             print('Username: $username, Password: $password');
                           },
-                          child: Text('Login'),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 40.0,
                               vertical: 15.0,
                             ),
@@ -77,8 +79,9 @@ class LoginScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
+                          child: const Text('Login'),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -88,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text('Create Account'),
+                          child:const Text('Create Account'),
                         ),
                       ],
                     ),

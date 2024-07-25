@@ -1,3 +1,4 @@
+import 'package:florist_app/Widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccountScreen extends StatelessWidget {
@@ -8,104 +9,106 @@ class CreateAccountScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Account'),
+        backgroundColor: Colors.greenAccent,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Name',
-                prefixIcon: const Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.greenAccent, Color.fromARGB(167, 178, 255, 89)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
-            const SizedBox(height: 20.0),
-            TextField(
-              controller: _surnameController,
-              decoration: InputDecoration(
-                labelText: 'Surname',
-                prefixIcon: const Icon(Icons.person_outline),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: const Icon(Icons.email),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                prefixIcon: const Icon(Icons.lock),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            TextField(
-              controller: _confirmPasswordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                prefixIcon: const Icon(Icons.lock_outline),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                // Handle account creation logic
-                String name = _nameController.text;
-                String surname = _surnameController.text;
-                String email = _emailController.text;
-                String password = _passwordController.text;
-                String confirmPassword = _confirmPasswordController.text;
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Create Your Account',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  CustomTextField(
+                    controller: _nameController,
+                    hintText: 'Name',
+                  ),
+                  const SizedBox(height: 20.0),
+                  CustomTextField(
+                    controller: _surnameController,
+                    hintText: 'Surname',
+                  ),
+                  const SizedBox(height: 20.0),
+                  CustomTextField(
+                    controller: _emailController,
+                    hintText: "Email",
+                  ),
+                  const SizedBox(height: 20.0),
+                  CustomTextField(
+                    controller: _passwordController,
+                    hintText: "Password",
+                  ),
+                  const SizedBox(height: 20.0),
+                  CustomTextField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    hintText: 'Confirm Password',
+                  ),
+                  const SizedBox(height: 30.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      //My logic her
+                      String name = _nameController.text;
+                      String surname = _surnameController.text;
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      String confirmPassword = _confirmPasswordController.text;
 
-                if (password == confirmPassword) {
-                  print('Account created for $name $surname with email $email');
-                  // Navigate back to login screen
-                  Navigator.pop(context);
-                } else {
-                  print('Passwords do not match');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 15.0,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+                      if (password == confirmPassword) {
+                        print(
+                            'Account created for $name $surname with email $email');
+                        // Go back bro to loginscreen
+                        Navigator.pop(context);
+                      } else {
+                        print('Passwords do not match');
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40.0,
+                        vertical: 15.0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    child: const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              child: const Text('Create Account'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:florist_app/Widgets/custom_text_field.dart';
 import 'package:florist_app/screens/create_account.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -13,26 +14,27 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        color:const Color(0xFFFFC0CB),
+        color: Colors.greenAccent,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-               const Text(
-                  'Flowers',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-               const SizedBox(height: 20),
-              const  CircleAvatar(
+                Text('Bringing Blooms to Your Doorstep',
+                    style: GoogleFonts.dosis(
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                const SizedBox(height: 20),
+                const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage('assets/images/logo.jpg'), //Need A logo
+                  backgroundImage:
+                      AssetImage('assets/images/logo.jpg'), //Need A logo
                 ),
-               const SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -42,41 +44,43 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                     const   Text(
+                        Text(
                           'Welcome Back',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                          style: GoogleFonts.dosis(
+                            textStyle: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                     const   SizedBox(height: 10),
-                     const   Text(
-                          'TBA.',
+                        const SizedBox(height: 10),
+                        Text(
+                          'Experience the beauty of nature at your fingertips.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.dosis(
+                              textStyle: const TextStyle(
                             fontSize: 14,
-                            color: Colors.grey,
-                          ),
+                            color: Colors.black54,
+                          )),
                         ),
-                   const     SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         CustomTextField(
                           controller: _usernameController,
                           hintText: 'Email',
                         ),
-                    const    SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         CustomTextField(
                           controller: _passwordController,
                           hintText: 'Password',
                           obscureText: true,
-                          suffixIcon: Icons.visibility_off,
+                          suffixIcon: Icons.visibility_off_rounded,
                         ),
-                       const SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             // I need to fix logic here this must be connected to backeend
                             // String username = _usernameController.text;
                             // String password = _passwordController.text;
-                            
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
@@ -93,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           const Text(
+                            const Text(
                               'Don’t have an account?',
                               style: TextStyle(color: Colors.grey),
                             ),
@@ -128,5 +132,4 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
 }

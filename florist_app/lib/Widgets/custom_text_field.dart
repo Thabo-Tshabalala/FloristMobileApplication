@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final IconData? suffixIcon;
+  final void Function()? onSuffixIconPressed;
 
   const CustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
     this.obscureText = false,
+    this.onSuffixIconPressed,
     this.suffixIcon,
   });
 
@@ -23,12 +25,18 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.grey[200],
         hintText: hintText,
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+                icon: Icon(suffixIcon),
+                onPressed: onSuffixIconPressed,
+              )
+            : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       ),
     );
   }

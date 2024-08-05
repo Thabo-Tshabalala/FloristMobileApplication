@@ -15,7 +15,7 @@ class UserRegistrationRequest {
     
   });
   // Convert the object to a Map
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJsdon() { 
     return {
       'email': email,
       'password': password,

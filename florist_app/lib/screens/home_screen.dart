@@ -1,5 +1,9 @@
-import 'package:florist_app/screens/navigation_screens/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../model/flower.dart';
+import '../provider/cart_provider.dart';
+import '../screens/flower_detail_screen.dart';
+import '../screens/navigation_screens/profile.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -11,20 +15,26 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // Titles for each screen
   final List<String> _titles = <String>[
-    'Home',          // Title for Home Screen
-    'Catalogues',    // Title for Catalogues Screen
-    'Cart',          // Title for Cart Screen
-    'Profile',       // Title for Profile Screen
+    'Home',
+    'Catalogues',
+    'Cart',
+    'Profile',
   ];
 
-  // Placeholder widgets for each screen
-  final List<Widget> _widgetOptions = <Widget>[
-    const Center(child: Text('Home Screen', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Catalogues Screen', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('Cart Screen', style: TextStyle(fontSize: 24))),
-    const ProfileScreen(), // Reference to ProfileScreen here
+  final List<Flower> flowers = [
+    Flower(
+      name: 'Rose',
+      description: 'A beautiful red rose.',
+      price: 10.0,
+      imageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbeautiful%2520flowers%2F&psig=AOvVaw0-0vrBQ7MJLOGmfmSwrQ_9&ust=1722799601173000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNDntePG2YcDFQAAAAAdAAAAABAE',
+    ),
+    Flower(
+      name: 'Tulip',
+      description: 'A vibrant yellow tulip.',
+      price: 8.0,
+      imageUrl: 'https://example.com/tulip.jpg',
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -35,9 +45,34 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _widgetOptions = <Widget>[
+      ListView.builder(
+        itemCount: flowers.length,
+        itemBuilder: (context, index) {
+          final flower = flowers[index];
+          return ListTile(
+            leading: Image.network(flower.imageUrl),
+            title: Text(flower.name),
+            subtitle: Text('\$${flower.price.toStringAsFixed(2)}'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FlowerDetailsScreen(flower: flower),
+                ),
+              );
+            },
+          );
+        },
+      ),
+      const Center(child: Text('Catalogues Screen', style: TextStyle(fontSize: 24))),
+      const Center(child: Text('Cart Screen', style: TextStyle(fontSize: 24))),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_selectedIndex]), // Dynamic title based on selected index
+        title: Text(_titles[_selectedIndex]),
         backgroundColor: Colors.green,
       ),
       body: IndexedStack(

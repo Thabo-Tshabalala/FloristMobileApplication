@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "florist_app",
+            "cwd": "florist_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "florist_app (profile mode)",
+            "cwd": "florist_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "florist_app (release mode)",
+            "cwd": "florist_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

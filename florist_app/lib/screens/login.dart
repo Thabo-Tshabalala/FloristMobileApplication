@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:florist_app/Widgets/custom_text_field.dart';
 import 'package:florist_app/screens/create_account.dart';
 import 'package:florist_app/screens/home_screen.dart';
+import 'package:florist_app/screens/supplier_screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+  bool _isSupplier = false;
 
   Future<void> _storeUserEmail(String email) async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,10 +28,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onLoginSuccess(String email) async {
     await _storeUserEmail(email);
-    // Navigate to the main screen or perform other actions
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const MainScreen()),
-    );
+    
+    // Navigate to the AddFlowerScreen if the user is a supplier
+    if (_isSupplier) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => AddFlowerScreen()),
+      );
+    } else {
+      // Otherwise, navigate to the main screen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
+    }
   }
 
   void _togglePasswordVisibility() {
@@ -39,8 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
+    final String loginUrl = _isSupplier
+        ? 'http://10.0.2.2:8080/supplier/login'
+        : 'http://10.0.2.2:8080/user/login';
+
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/user/login'),
+      Uri.parse(loginUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -49,10 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
         'password': _passwordController.text,
       }),
     );
+
     if (!mounted) return;
 
     if (response.statusCode == 200) {
-      onLoginSuccess(_usernameController.text);  // Use the email instead of password
+      onLoginSuccess(_usernameController.text);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login Successful')),
       );
@@ -134,6 +149,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? Icons.visibility_off_rounded
                               : Icons.visibility_rounded,
                           onSuffixIconPressed: _togglePasswordVisibility,
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: _isSupplier,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isSupplier = value ?? false;
+                                });
+                              },
+                            ),
+                            const Text('Are you a supplier?'),
+                          ],
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(

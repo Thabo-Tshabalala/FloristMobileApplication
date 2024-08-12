@@ -115,16 +115,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 16),
                   Text(
                     'Thabo', // Replace with actual user name
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: Colors.black, // Text color for the user name
-                        ),
+                    // style: Theme.of(context).textTheme.headline6?.copyWith(
+                    //       color: Colors.black, // Text color for the user name
+                    //     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _userEmail ?? 'Loading...', // Show user email or loading text
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Colors.grey[600], // Text color for the user email
-                        ),
+                    _userEmail ?? 'Loading......', // Show user email or loading text
+                    // style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                    //       color: Colors.grey[600], // Text color for the user email
+                    //     ),
                   ),
                 ],
               ),

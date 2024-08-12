@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:florist_app/Widgets/custom_text_field.dart';
+import 'package:florist_app/widgets/custom_text_field.dart';
 import 'package:florist_app/model/user_registration.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -19,6 +19,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _phoneNumberController;
+  bool _isSupplier = false; // Track if the user is a supplier
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> registerUser(UserRegistrationRequest request) async {
     final url = Uri.parse(
-        'http://10.0.2.2:8080/user/register'); // My Spring Boot endpoint
+        'http://10.0.2.2:8080/user/register'); // User registration endpoint
 
     try {
       final response = await http.post(
@@ -52,8 +53,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         },
         body: jsonEncode(request.toJson()), // Convert the model to JSON
       );
+
       if (!mounted) return;
-      
+
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('User registered successfully')),
@@ -67,7 +69,41 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Network error : $error')),
+        SnackBar(content: Text('Network error: $error')),
+      );
+    }
+  }
+
+  Future<void> registerSupplier(UserRegistrationRequest request) async {
+    final url = Uri.parse(
+        'http://10.0.2.2:8080/supplier/register'); // Supplier registration endpoint
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(request.toJson()), // Convert the model to JSON
+      );
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Supplier registered successfully')),
+        );
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to register supplier: ${response.statusCode}')),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Network error: $error')),
       );
     }
   }
@@ -79,9 +115,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       firstName: _nameController.text,
       lastName: _surnameController.text,
       phoneNumber: _phoneNumberController.text,
+      isSupplier: _isSupplier, // Add this line to include supplier status
     );
 
-    registerUser(request);
+    if (_isSupplier) {
+      // Call the supplier registration API
+      registerSupplier(request);
+    } else {
+      // Call the user registration API
+      registerUser(request);
+    }
   }
 
   @override
@@ -97,7 +140,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.greenAccent, Color.fromARGB(167, 178, 255, 89)],
+                colors: [Colors.greenAccent, Color.fromARGB(171, 100, 177, 12)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -142,6 +185,22 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     controller: _passwordController,
                     hintText: 'Password',
                     obscureText: true,
+                  ),
+                  const SizedBox(height: 20.0),
+                  CheckboxListTile(
+                    title: const Text(
+                      'I am a supplier',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: _isSupplier,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _isSupplier = value ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                    activeColor: Colors.greenAccent,
+                    checkColor: Colors.white,
                   ),
                   const SizedBox(height: 20.0),
                   ElevatedButton(

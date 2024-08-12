@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../model/flower.dart';
-import '../provider/cart_provider.dart';
 import '../screens/flower_detail_screen.dart';
 import '../screens/navigation_screens/profile.dart';
 
